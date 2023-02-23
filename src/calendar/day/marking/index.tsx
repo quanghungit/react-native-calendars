@@ -70,7 +70,9 @@ const Marking = (props: MarkingProps) => {
       });
 
       return validItems.map((item, index) => {
+        if(index < 3){
         return type === Markings.MULTI_DOT ? renderDot(index, item) : renderPeriod(index, item);
+        }
       });
     }
   };

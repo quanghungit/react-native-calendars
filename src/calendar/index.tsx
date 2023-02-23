@@ -125,7 +125,7 @@ const Calendar = (props: CalendarProps & ContextProp) => {
     updateMonth(newMonth);
   }, [currentMonth, updateMonth]);
 
-  const handleDayInteraction = useCallback((date: DateData, interaction?: (date: DateData) => void) => {
+  const handleDayInteraction = useCallback((date: DateData,days :any ,interaction?: (date: DateData) => void) => {
     const day = new XDate(date.dateString);
 
     if (allowSelectionOutOfRange || !(minDate && !isGTE(day, new XDate(minDate))) && !(maxDate && !isLTE(day, new XDate(maxDate)))) {
@@ -133,14 +133,14 @@ const Calendar = (props: CalendarProps & ContextProp) => {
         updateMonth(day);
       }
       if (interaction) {
-        interaction(date);
+        interaction(days, xdateToData(date));
       }
     }
   }, [minDate, maxDate, allowSelectionOutOfRange, disableMonthChange, updateMonth]);
 
-  const _onDayPress = useCallback((date?: DateData) => {
+  const _onDayPress = useCallback((date?: DateData,marking:any) => {
     if (date)
-    handleDayInteraction(date, onDayPress);
+    handleDayInteraction(date,marking[date], onDayPress);
   }, [handleDayInteraction, onDayPress]);
 
   const onLongPressDay = useCallback((date?: DateData) => {
@@ -208,7 +208,7 @@ const Calendar = (props: CalendarProps & ContextProp) => {
           date={dateString}
           state={getState(day, currentMonth, props, isControlled)}
           marking={markedDates?.[dateString]}
-          onPress={_onDayPress}
+          onPress={()=>_onDayPress(dateString,markedDates)}
           onLongPress={onLongPressDay}
         />
       </View>
