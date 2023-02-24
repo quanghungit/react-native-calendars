@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import isEqual from 'lodash/isEqual';
 
 import {getPartialWeekDates, getWeekDates, sameMonth} from '../dateutils';
-import {parseDate, toMarkingFormat} from '../interface';
+import {parseDate, toMarkingFormat, xdateToData} from '../interface';
 import {getState} from '../day-state-manager';
 import {extractDayProps} from '../componentUpdater';
 import styleConstructor from './style';
@@ -64,6 +64,7 @@ const Week = React.memo((props: WeekProps) => {
       }
     }
     const dayString = toMarkingFormat(day);
+
     return (
       <View style={style.current.dayContainer} key={id}>
         <Day
@@ -72,7 +73,7 @@ const Week = React.memo((props: WeekProps) => {
           date={dayString}
           state={getState(day, currXdate, props, disableDaySelection)}
           marking={disableDaySelection ? {...markedDates?.[dayString], disableTouchEvent: true} : markedDates?.[dayString]}
-          onPress={onDayPress}
+          onPress={()=> onDayPress(xdateToData(day), markedDates[dayString])}
           onLongPress={onDayLongPress}
         />
       </View>
