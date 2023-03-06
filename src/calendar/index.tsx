@@ -140,7 +140,7 @@ const Calendar = (props: CalendarProps & ContextProp) => {
 
   const _onDayPress = useCallback((date?: DateData,marking:any) => {
     if (date)
-    handleDayInteraction(date,marking[date], onDayPress);
+    handleDayInteraction(date,marking!==undefined ? marking[date] : {}, onDayPress);
   }, [handleDayInteraction, onDayPress]);
 
   const onLongPressDay = useCallback((date?: DateData) => {
